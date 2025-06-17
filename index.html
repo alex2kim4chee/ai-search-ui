@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Product Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Find your perfect T‑Shirt</h1>
+  <input type="text" id="searchInput" placeholder="Type something like ‘retro tee’">
+  <button onclick="runSearch()">Search</button>
+  <div id="results"></div>
+
+  <script>
+    async function runSearch() {
+      const query = document.getElementById('searchInput').value;
+      if (!query) return;
+      document.getElementById('results').innerHTML = 'Searching...';
+      try {
+        const res = await fetch(`https://your-worker-url.workers.dev/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        if (!data.length) {
+          document.getElementById('results').innerHTML = 'No results found.';
+          return;
+        }
+        const html = data.map(item => `
+          <div class="result">
+            <h3><a href="${item.url}" target="_blank">${item.name}</a></h3>
+            <p>${item.description}</p>
+            <img src="${item.image}" alt="${item.name}" width="100">
+          </div>
+        `).join('');
+        document.getElementById('results').innerHTML = html;
+      } catch (e) {
+        document.getElementById('results').innerHTML = 'Error loading results.';
+      }
+    }
+  </script>
+</body>
+</html>
