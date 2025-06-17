@@ -39,7 +39,7 @@
       if (!query) return;
       document.getElementById('results').innerHTML = 'Searching...';
       try {
-        const res = await fetch(`https://your-worker-url.workers.dev/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`https://ai-search-worker.pecanstudio.workers.dev/search?q=${encodeURIComponent(query)}`);
         const data = await res.json();
         if (!data.length) {
           document.getElementById('results').innerHTML = 'No results found.';
