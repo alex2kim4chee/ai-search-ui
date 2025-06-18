@@ -39,7 +39,7 @@
   // HTML
   const container = document.getElementById("ai-search-widget");
   container.innerHTML = `
-    <h3>Search Our AI Picks</h3>
+    <h3>Find your perfect tee</h3>
     <input type="text" id="ai-search-query" placeholder="Try: retro tee or serotonin shirt" />
     <button id="ai-search-button">Search</button>
     <div id="ai-search-results"></div>
