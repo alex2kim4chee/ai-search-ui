@@ -4,12 +4,9 @@
   style.textContent = `
     #ai-search-widget {
       font-family: Arial, sans-serif;
-      max-width: 600px;
+      max-width: 100%;
       margin: 30px auto;
       padding: 20px;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
     #ai-search-widget input {
       width: 100%;
