@@ -20,10 +20,42 @@
       padding: 10px 20px;
       font-size: 16px;
     }
-    .result {
+    /* Сетка для результатов */
+    #results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-gap: 20px;
       margin-top: 20px;
+    }
+    /* Карточка товара */
+    .result {
       border: 1px solid #ddd;
+      border-radius: 6px;
       padding: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .result img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+    .result h3 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+    }
+    .result p {
+      font-size: 14px;
+      flex: 1;
+      margin: 0 0 10px;
+    }
+    .result .price {
+      font-weight: bold;
+      text-align: right;
+      font-size: 16px;
+      color: #333;
     }
   </style>
 </head>
@@ -37,24 +69,26 @@
     async function runSearch() {
       const query = document.getElementById('searchInput').value;
       if (!query) return;
-      document.getElementById('results').innerHTML = 'Searching...';
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = 'Searching...';
       try {
         const res = await fetch(`https://ai-search-worker.pecanstudio.workers.dev/search?q=${encodeURIComponent(query)}`);
         const data = await res.json();
         if (!data.length) {
-          document.getElementById('results').innerHTML = 'No results found.';
+          resultsContainer.innerHTML = 'No results found.';
           return;
         }
         const html = data.map(item => `
           <div class="result">
+            <img src="${item.image}" alt="${item.name}">
             <h3><a href="${item.url}" target="_blank">${item.name}</a></h3>
             <p>${item.description}</p>
-            <img src="${item.image}" alt="${item.name}" width="100">
+            <div class="price">$${item.price}</div>
           </div>
         `).join('');
-        document.getElementById('results').innerHTML = html;
+        resultsContainer.innerHTML = html;
       } catch (e) {
-        document.getElementById('results').innerHTML = 'Error loading results.';
+        resultsContainer.innerHTML = 'Error loading results.';
       }
     }
   </script>
