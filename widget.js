@@ -22,16 +22,43 @@
       font-size: 16px;
       cursor: pointer;
     }
+    /* Сетка для результатов */
+    #ai-search-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-gap: 20px;
+      margin-top: 20px;
+    }
+    /* Карточка товара */
     #ai-search-widget .result {
       border: 1px solid #ddd;
-      margin-top: 20px;
-      padding: 10px;
       border-radius: 6px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
     }
     #ai-search-widget img {
-      max-width: 100px;
-      display: block;
-      margin-top: 10px;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    #ai-search-widget h4 {
+      font-size: 18px;
+      margin: 0 0 5px;
+    }
+    #ai-search-widget p {
+      font-size: 14px;
+      flex: 1;
+      margin: 0 0 10px;
+    }
+    #ai-search-widget .price {
+      font-weight: bold;
+      text-align: right;
+      font-size: 16px;
+      color: #333;
     }
   `;
   document.head.appendChild(style);
@@ -61,13 +88,16 @@
         return;
       }
 
-      resultsDiv.innerHTML = data.map(item => `
+      const html = data.map(item => `
         <div class="result">
+          <img src="${item.image}" alt="${item.name}" />
           <h4><a href="${item.url}" target="_blank">${item.name}</a></h4>
           <p>${item.description}</p>
-          <img src="${item.image}" alt="${item.name}" />
+          <div class="price">$${item.price}</div>
         </div>
       `).join('');
+
+      resultsDiv.innerHTML = html;
     } catch (e) {
       resultsDiv.innerHTML = "❌ Error loading results.";
     }
